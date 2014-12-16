@@ -14,3 +14,8 @@ class Episodes(Item):
     episode = Field()
     title = Field()
     url = Field()
+    link = Field()
+    response = Field()
+
+class Video(Item):
+    url = Field()

@@ -1,6 +1,7 @@
 from scrapy.spider import Spider
 from scrapy.selector import Selector
-import re, unidecode
+from scrapy.http import Request
+import re, scrapy
 
 from tv_roulette_scraper.items import Episodes
 
@@ -20,10 +21,13 @@ class ParksSpider(Spider):
         for site in sites:
             item = Episodes()
             item['name'] = 'Parks & Recreation'
-            item['season'] = (filter(None, (re.findall('S(\d+)|Season\ (\d+)', (site.xpath('a/text()').extract())[0]))[0]))[0]
+            a = site.xpath('a/text()').extract()
+            txt = a[0]
+            item['season'] = (filter(None, (re.findall('S(\d+)|Season\ (\d+)', txt))[0]))[0]
             item['episode'] = (re.findall('Episode\ (\d+)', txt))[0]
-            item['url'] = (site.xpath('a/@href').extract())[0]
+            item['link'] = (site.xpath('a/@href').extract())[0]
             item['title'] = ((site.xpath('text()').extract())[0]).encode('cp850"', 'replace').replace(' ? ', '')
+            item['url'] = ""
             items.append(item)
 
         return items
