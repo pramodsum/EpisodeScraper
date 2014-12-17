@@ -5,7 +5,6 @@ import re, scrapy
 
 from tv_roulette_scraper.items import Episodes
 
-
 class ParksSpider(Spider):
     name = "parks"
     allowed_domains = ["couchtuner.eu/parks-and-recreation/"]
@@ -23,11 +22,11 @@ class ParksSpider(Spider):
             item['name'] = 'Parks & Recreation'
             a = site.xpath('a/text()').extract()
             txt = a[0]
+            item['page'] = txt
             item['season'] = (filter(None, (re.findall('S(\d+)|Season\ (\d+)', txt))[0]))[0]
             item['episode'] = (re.findall('Episode\ (\d+)', txt))[0]
             item['link'] = (site.xpath('a/@href').extract())[0]
             item['title'] = ((site.xpath('text()').extract())[0]).encode('cp850"', 'replace').replace(' ? ', '')
-            item['url'] = ""
             items.append(item)
 
         return items

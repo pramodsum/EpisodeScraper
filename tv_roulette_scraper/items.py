@@ -10,6 +10,7 @@ from scrapy.item import Item, Field
 
 class Episodes(Item):
     name = Field()
+    page = Field()
     season = Field()
     episode = Field()
     title = Field()
@@ -19,3 +20,5 @@ class Episodes(Item):
 
 class Video(Item):
     url = Field()
+    page = Field()
+    name = Field()
